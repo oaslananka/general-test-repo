@@ -174,6 +174,12 @@ else
   skip "Requesty NVIDIA Nemotron free endpoint" "REQUESTY_API_KEY missing"
 fi
 
+if [[ -n "${AI_GATEWAY_API_KEY:-}" ]]; then
+  run_model "Vercel Laguna S 2.1 Free" "vercel-free/laguna-s-2.1-free"
+else
+  skip "Vercel Laguna S 2.1 Free" "AI_GATEWAY_API_KEY missing"
+fi
+
 if [[ -n "${INCEPTION_API_KEY:-}" ]]; then
   run_model "Inception Mercury free allocation" "inception-free/mercury-2"
 else

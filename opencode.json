@@ -207,6 +207,42 @@
           }
         }
       }
+    },
+    "hetzner-free": {
+      "name": "Hetzner Experiments Inference Free",
+      "env": [
+        "HETZNER_VLLM_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://inference.hetzner.com/api/v1"
+      },
+      "models": {
+        "qwen3.6": {
+          "modelID": "Qwen/Qwen3.6-35B-A3B-FP8",
+          "name": "Hetzner Qwen3.6 35B A3B"
+        }
+      }
+    },
+    "aion-free": {
+      "name": "Aion Labs Free Tier",
+      "env": [
+        "AION_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.aionlabs.ai/v1"
+      },
+      "models": {
+        "aion-3-mini": {
+          "modelID": "aion-labs/aion-3.0-mini",
+          "name": "Aion 3.0 Mini",
+          "limit": {
+            "context": 131072,
+            "output": 32768
+          }
+        }
+      }
     }
   },
   "permissions": [

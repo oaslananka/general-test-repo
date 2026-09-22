@@ -332,6 +332,25 @@
           "name": "GLM-4.7-Flash Free"
         }
       }
+    },
+    "llmtech-free": {
+      "name": "LLM Tech Shared Free Trial",
+      "env": [
+        "LLMTECH_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.llmtech.eu/v1"
+      },
+      "models": {
+        "qwen3.8-27b": {
+          "modelID": "nvidia/Qwen3.8-27B-NVFP4",
+          "name": "LLM Tech Qwen3.8 27B Free Trial",
+          "limit": {
+            "context": 262144
+          }
+        }
+      }
     }
   },
   "permissions": [

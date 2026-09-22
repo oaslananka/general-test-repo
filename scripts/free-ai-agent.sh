@@ -108,6 +108,9 @@ for raw in ${ORDER//,/ }; do
     zai)
       run_opencode "zai-glm-4.7-flash-free" "zai-free/glm-4.7-flash" && exit 0
       ;;
+    llmtech)
+      run_opencode "llmtech-qwen3.8-27b-free-trial" "llmtech-free/qwen3.8-27b" && exit 0
+      ;;
     ollama)
       if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
         run_opencode "ollama-local" "ollama/$OLLAMA_MODEL" && exit 0

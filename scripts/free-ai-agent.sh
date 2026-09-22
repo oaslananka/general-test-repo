@@ -13,7 +13,7 @@ rm -f "$PROVIDER_FILE"
 
 MODE="${AI_MODE:-implement}"
 TASK="${AI_TASK:-Inspect the repository and make the smallest safe change.}"
-ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ovh,llm7,ollama}"
+ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ovh,llm7,pollinations,ollama}"
 OLLAMA_MODEL="${AI_OLLAMA_MODEL:-qwen3-coder:30b}"
 
 PROMPT=$(cat <<EOF
@@ -89,6 +89,9 @@ for raw in ${ORDER//,/ }; do
       ;;
     ovh)
       run_opencode "ovh-anonymous-qwen3-coder" "ovh-anon/qwen3-coder" && exit 0
+      ;;
+    pollinations)
+      run_opencode "pollinations-legacy-keyless" "pollinations-anon/openai-fast" && exit 0
       ;;
     ollama)
       if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then

@@ -28,7 +28,7 @@ run_model() {
   TESTED=$((TESTED + 1))
 
   set +e
-  out=$(timeout 4m opencode run --standalone --agent build --model "$model"     "Do not use tools. Reply with exactly: PROVIDER_OK" 2>&1)
+  out=$(timeout 60s opencode run --standalone --agent build --model "$model"     "Do not use tools. Reply with exactly: PROVIDER_OK" 2>&1)
   rc=$?
   set -e
 
@@ -57,7 +57,7 @@ kilo --version
 kilo models >/tmp/kilo-models.txt 2>&1 || true
 pass "Kilo CLI install"
 
-if [[ -n "${GEMINI_API_KEY:-}" ]]; then
+if [[ "${GEMINI_FREE_ONLY:-false}" == "true" && -n "${GEMINI_API_KEY:-}" ]]; then
   TESTED=$((TESTED + 1))
   set +e
   gemini_out=$(curl -fsS --max-time 90 \
@@ -76,7 +76,7 @@ if [[ -n "${GEMINI_API_KEY:-}" ]]; then
 
   run_model "Gemini 3.8 Flash via OpenCode native Google" "gemini-free/gemini-3.8-flash"
 else
-  skip "Gemini 3.8 Flash Free Tier" "GEMINI_API_KEY missing"
+  skip "Gemini 3.8 Flash Free Tier" "set GEMINI_FREE_ONLY=true only for a confirmed free-only AI Studio project"
 fi
 
 if [[ -n "${KILO_API_KEY:-}" ]]; then

@@ -6,6 +6,5 @@ export function applyDiscount(price, percent) {
     throw new TypeError("percent must be between 0 and 100");
   }
 
-  // Intentional challenge bug: percent is 0..100, not 0..1.
-  return price * (1 - percent);
+  return price * (1 - percent / 100);
 }

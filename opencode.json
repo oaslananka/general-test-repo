@@ -296,6 +296,26 @@
           }
         }
       }
+    },
+    "vercel-free": {
+      "name": "Vercel AI Gateway Laguna S 2.1 Free",
+      "env": [
+        "VERCEL_AI_GATEWAY_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://ai-gateway.vercel.sh/v1"
+      },
+      "models": {
+        "laguna-s-2.1-free": {
+          "modelID": "poolside/laguna-s-2.1-free",
+          "name": "Laguna S 2.1 Free",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        }
+      }
     }
   },
   "permissions": [

@@ -65,6 +65,7 @@ Optional free/no-card evaluation paths:
 - `MISTRAL_API_KEY`
 - `FREEINFERENCE_API_KEY` — no-card FreeInference account; pinned to free `glm-5.3-flash`
 - `REQUESTY_API_KEY` — Requesty Free plan; pinned to the $0 NVIDIA endpoint
+- `AI_GATEWAY_API_KEY` — Vercel AI Gateway; pinned only to `poolside/laguna-s-2.1-free`
 
 Guard variables:
 
@@ -128,6 +129,7 @@ pollinations
 freeinference
 cohere
 requesty
+vercel
 ollama
 ```
 
@@ -146,6 +148,7 @@ Current pending-key routes:
 - FreeInference — no card; free models include GLM 5.3 Flash, DeepSeek V4 Flash, Qwen3.6 and others.
 - Cohere North Mini Code — model itself is free until rate limits for trial and production keys.
 - Requesty Free — no card; 200 requests/day on its free models; config is pinned to a zero-priced NVIDIA endpoint.
+- Vercel AI Gateway — forced-only; pinned to `poolside/laguna-s-2.1-free`, whose official model page lists both input and output as Free.
 - Hetzner experimental inference — free while the experiment runs.
 - Aion Free Tier.
 - Inception Mercury free allocation.
@@ -211,4 +214,6 @@ pass 3/3 tests without editing the tests.
 - FreeInference: https://freeinference.org and https://doc.freeinference.org/models
 - Cohere North Mini Code: https://docs.cohere.com/docs/north-mini-code-1.0
 - Requesty Free: https://www.requesty.ai/pricing and https://www.requesty.ai/models/free
+- Vercel Laguna S 2.1 Free: https://vercel.com/ai-gateway/models/laguna-s-2.1-free
+- Vercel OpenAI-compatible endpoint: https://vercel.com/docs/ai-gateway
 - Freebuff terms: https://freebuff.com/terms-of-service

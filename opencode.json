@@ -1,0 +1,107 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "share": "manual",
+  "providers": {
+    "gemini-free": {
+      "name": "Gemini Developer API Free Tier",
+      "env": ["GEMINI_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/"
+      },
+      "models": {
+        "gemini-3.8-flash": {
+          "modelID": "gemini-3.8-flash",
+          "name": "Gemini 3.8 Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        }
+      }
+    },
+    "kilo-free": {
+      "name": "Kilo Auto Free",
+      "env": ["KILO_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.kilo.ai/api/gateway"
+      },
+      "models": {
+        "auto-free": {
+          "modelID": "kilo-auto/free",
+          "name": "Kilo Auto Free"
+        }
+      }
+    },
+    "nvidia-free": {
+      "name": "NVIDIA NIM Free Endpoint",
+      "env": ["NVIDIA_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://integrate.api.nvidia.com/v1"
+      },
+      "models": {
+        "nemotron-3-super": {
+          "modelID": "nvidia/nemotron-3-super-120b-a12b",
+          "name": "NVIDIA Nemotron 3 Super 120B A12B",
+          "limit": {
+            "context": 1048576
+          }
+        }
+      }
+    },
+    "groq-free": {
+      "name": "Groq Free Tier",
+      "env": ["GROQ_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.groq.com/openai/v1"
+      },
+      "models": {
+        "gpt-oss-120b": {
+          "modelID": "openai/gpt-oss-120b",
+          "name": "GPT-OSS 120B on Groq",
+          "limit": {
+            "context": 131072,
+            "output": 65536
+          }
+        }
+      }
+    },
+    "openrouter-free": {
+      "name": "OpenRouter Free Router",
+      "env": ["OPENROUTER_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://openrouter.ai/api/v1"
+      },
+      "models": {
+        "free": {
+          "modelID": "openrouter/free",
+          "name": "OpenRouter Free Models Router",
+          "limit": {
+            "context": 200000
+          }
+        }
+      }
+    }
+  },
+  "permissions": [
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "glob", "resource": "*", "effect": "allow" },
+    { "action": "grep", "resource": "*", "effect": "allow" },
+    { "action": "edit", "resource": "*", "effect": "allow" },
+    { "action": "edit", "resource": ".github/workflows/*", "effect": "deny" },
+    { "action": "edit", "resource": "*.env", "effect": "deny" },
+    { "action": "external_directory", "resource": "*", "effect": "deny" },
+    { "action": "webfetch", "resource": "*", "effect": "deny" },
+    { "action": "websearch", "resource": "*", "effect": "deny" },
+    { "action": "shell", "resource": "*", "effect": "allow" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" },
+    { "action": "shell", "resource": "git commit *", "effect": "deny" },
+    { "action": "shell", "resource": "gh *", "effect": "deny" },
+    { "action": "shell", "resource": "env *", "effect": "deny" },
+    { "action": "shell", "resource": "printenv *", "effect": "deny" }
+  ]
+}

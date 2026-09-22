@@ -1,0 +1,70 @@
+name: Free Provider Smoke Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      strict:
+        description: "Fail if any configured provider fails"
+        required: false
+        default: true
+        type: boolean
+  push:
+    branches:
+      - main
+      - ai/free-coding-stack-20260922
+    paths:
+      - opencode.json
+      - scripts/provider-smoke.sh
+      - .github/workflows/provider-smoke.yml
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ${{ vars.AI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 30
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      KILO_API_KEY: ${{ secrets.KILO_API_KEY }}
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      AI_OLLAMA_MODEL: ${{ vars.AI_OLLAMA_MODEL }}
+      STRICT_PROVIDER_SMOKE: ${{ github.event_name == 'workflow_dispatch' && inputs.strict || 'false' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install current CLIs
+        run: |
+          set -euo pipefail
+          npm install --global @opencode/cli @kilocode/cli
+          opencode --version
+          kilo --version
+
+      - name: Verify challenge is initially failing
+        shell: bash
+        run: |
+          set +e
+          npm --prefix challenge test
+          rc=$?
+          set -e
+          if [[ $rc -eq 0 ]]; then
+            echo "The intentionally broken challenge unexpectedly passed."
+            exit 1
+          fi
+          echo "Intentional failing challenge confirmed."
+
+      - name: Smoke-test configured free providers
+        shell: bash
+        run: bash scripts/provider-smoke.sh

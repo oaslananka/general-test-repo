@@ -142,7 +142,7 @@ fi
 run_model "Kilo Auto Free anonymous" "kilo-anon/auto-free"
 run_model "LLM7 anonymous default" "llm7-anon/default"
 run_model "OVHcloud anonymous Qwen3 Coder" "ovh-anon/qwen3-coder"
-run_model "uncloseai keyless Qwen3.8 27B" "uncloseai-anon/qwen3.8-27b"
+run_model "uncloseai public Qwen3.6 27B" "uncloseai-anon/qwen3.6-27b"
 run_model "Pollinations legacy keyless" "pollinations-anon/openai-fast"
 
 if [[ -n "${HETZNER_VLLM_API_KEY:-}" ]]; then

@@ -13,7 +13,7 @@ rm -f "$PROVIDER_FILE"
 
 MODE="${AI_MODE:-implement}"
 TASK="${AI_TASK:-Inspect the repository and make the smallest safe change.}"
-ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ovh,llm7,ollama}"
+ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ollama}"
 OLLAMA_MODEL="${AI_OLLAMA_MODEL:-qwen3-coder:30b}"
 
 PROMPT=$(cat <<EOF
@@ -49,7 +49,7 @@ run_opencode() {
   restore_repo
 
   set +e
-  timeout 25m opencode run     --standalone     --agent build     --model "$model"     "$PROMPT" 2>&1 | tee -a "$LOG"
+  timeout 10m opencode run     --standalone     --agent build     --model "$model"     "$PROMPT" 2>&1 | tee -a "$LOG"
   rc=${PIPESTATUS[0]}
   set -e
 
@@ -89,6 +89,21 @@ for raw in ${ORDER//,/ }; do
       ;;
     ovh)
       run_opencode "ovh-anonymous-qwen3-coder" "ovh-anon/qwen3-coder" && exit 0
+      ;;
+    pollinations)
+      run_opencode "pollinations-legacy-keyless" "pollinations-anon/openai-fast" && exit 0
+      ;;
+    freeinference)
+      run_opencode "freeinference-glm-5.3-flash" "freeinference-free/glm-5.3-flash" && exit 0
+      ;;
+    cohere)
+      run_opencode "cohere-north-mini-code-free" "cohere-free/north-mini-code" && exit 0
+      ;;
+    requesty)
+      run_opencode "requesty-nemotron-free" "requesty-free/nemotron-3-super" && exit 0
+      ;;
+    vercel)
+      run_opencode "vercel-laguna-s-2.1-free" "vercel-free/laguna-s-2.1-free" && exit 0
       ;;
     ollama)
       if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then

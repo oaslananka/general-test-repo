@@ -243,6 +243,79 @@
           }
         }
       }
+    },
+    "pollinations-anon": {
+      "name": "Pollinations Legacy Keyless",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://text.pollinations.ai/openai"
+      },
+      "models": {
+        "openai-fast": {
+          "modelID": "openai-fast",
+          "name": "Pollinations openai-fast keyless"
+        }
+      }
+    },
+    "freeinference-free": {
+      "name": "FreeInference Free",
+      "env": [
+        "FREEINFERENCE_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://freeinference.org/v1"
+      },
+      "models": {
+        "glm-5.3-flash": {
+          "modelID": "glm-5.3-flash",
+          "name": "FreeInference GLM 5.3 Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          }
+        }
+      }
+    },
+    "requesty-free": {
+      "name": "Requesty Free NVIDIA Endpoint",
+      "env": [
+        "REQUESTY_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://router.requesty.ai/v1"
+      },
+      "models": {
+        "nemotron-3-super": {
+          "modelID": "nvidia/nemotron-3-super-120b-a12b",
+          "name": "Requesty NVIDIA Nemotron 3 Super Free",
+          "limit": {
+            "context": 1048576,
+            "output": 66000
+          }
+        }
+      }
+    },
+    "vercel-free": {
+      "name": "Vercel AI Gateway Laguna S 2.1 Free",
+      "env": [
+        "AI_GATEWAY_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://ai-gateway.vercel.sh/v1"
+      },
+      "models": {
+        "laguna-s-2.1-free": {
+          "modelID": "poolside/laguna-s-2.1-free",
+          "name": "Laguna S 2.1 Free",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        }
+      }
     }
   },
   "permissions": [

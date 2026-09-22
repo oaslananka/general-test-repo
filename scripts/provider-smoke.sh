@@ -142,6 +142,7 @@ fi
 run_model "Kilo Auto Free anonymous" "kilo-anon/auto-free"
 run_model "LLM7 anonymous default" "llm7-anon/default"
 run_model "OVHcloud anonymous Qwen3 Coder" "ovh-anon/qwen3-coder"
+run_model "Pollinations legacy keyless" "pollinations-anon/openai-fast"
 
 if [[ -n "${HETZNER_VLLM_API_KEY:-}" ]]; then
   run_model "Hetzner Experiments Qwen3.6" "hetzner-free/qwen3.6"
@@ -155,10 +156,28 @@ else
   skip "Aion Labs Free Tier" "AION_API_KEY missing"
 fi
 
-if [[ -n "${COHERE_API_KEY:-}" ]]; then
-  run_model "Cohere North Mini Code trial" "cohere-free/north-mini-code"
+if [[ -n "${FREEINFERENCE_API_KEY:-}" ]]; then
+  run_model "FreeInference GLM 5.3 Flash free" "freeinference-free/glm-5.3-flash"
 else
-  skip "Cohere North Mini Code trial" "COHERE_API_KEY missing"
+  skip "FreeInference GLM 5.3 Flash free" "FREEINFERENCE_API_KEY missing"
+fi
+
+if [[ -n "${COHERE_API_KEY:-}" ]]; then
+  run_model "Cohere North Mini Code free" "cohere-free/north-mini-code"
+else
+  skip "Cohere North Mini Code free" "COHERE_API_KEY missing"
+fi
+
+if [[ -n "${REQUESTY_API_KEY:-}" ]]; then
+  run_model "Requesty NVIDIA Nemotron free endpoint" "requesty-free/nemotron-3-super"
+else
+  skip "Requesty NVIDIA Nemotron free endpoint" "REQUESTY_API_KEY missing"
+fi
+
+if [[ -n "${AI_GATEWAY_API_KEY:-}" ]]; then
+  run_model "Vercel Laguna S 2.1 Free" "vercel-free/laguna-s-2.1-free"
+else
+  skip "Vercel Laguna S 2.1 Free" "AI_GATEWAY_API_KEY missing"
 fi
 
 if [[ -n "${INCEPTION_API_KEY:-}" ]]; then

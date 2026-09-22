@@ -68,6 +68,9 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+      FREEINFERENCE_API_KEY: ${{ secrets.FREEINFERENCE_API_KEY }}
+      REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
+      AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
       AI_PROVIDER_ORDER: ${{ vars.AI_PROVIDER_ORDER }}
       AI_OLLAMA_MODEL: ${{ vars.AI_OLLAMA_MODEL }}
 
@@ -115,12 +118,12 @@ jobs:
                 task="${rest#"$provider"}"
                 task="${task#"${task%%[![:space:]]*}"}"
                 case "$provider" in
-                  kilo|nvidia|groq|openrouter|kiloanon|llm7|ovh|ollama)
+                  kilo|nvidia|groq|openrouter|kiloanon|llm7|ovh|pollinations|freeinference|cohere|requesty|vercel|ollama)
                     provider_order="$provider"
                     ;;
                   *)
                     echo "Unsupported provider: $provider"
-                    echo "Allowed: kilo nvidia groq openrouter kiloanon llm7 ovh ollama"
+                    echo "Allowed: kilo nvidia groq openrouter kiloanon llm7 ovh pollinations freeinference cohere requesty vercel ollama"
                     exit 2
                     ;;
                 esac

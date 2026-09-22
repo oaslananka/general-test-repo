@@ -243,6 +243,35 @@
           }
         }
       }
+    },
+    "uncloseai-anon": {
+      "name": "uncloseai Keyless",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://hermes.ai.unturf.com/v1"
+      },
+      "models": {
+        "qwen3.8-27b": {
+          "modelID": "RedHatAI/Qwen3.8-27B-INT4",
+          "name": "uncloseai Qwen3.8 27B keyless",
+          "limit": {
+            "context": 262144
+          }
+        }
+      }
+    },
+    "pollinations-anon": {
+      "name": "Pollinations Legacy Keyless",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://text.pollinations.ai/openai"
+      },
+      "models": {
+        "openai-fast": {
+          "modelID": "openai-fast",
+          "name": "Pollinations openai-fast keyless"
+        }
+      }
     }
   },
   "permissions": [

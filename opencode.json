@@ -245,17 +245,17 @@
       }
     },
     "uncloseai-anon": {
-      "name": "uncloseai Keyless",
+      "name": "uncloseai Hermes Public",
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://hermes.ai.unturf.com/v1"
       },
       "models": {
-        "qwen3.8-27b": {
-          "modelID": "RedHatAI/Qwen3.8-27B-INT4",
-          "name": "uncloseai Qwen3.8 27B keyless",
+        "qwen3.6-27b": {
+          "modelID": "Lorbus/Qwen3.6-27B-int4-AutoRound",
+          "name": "uncloseai public Qwen3.6 27B",
           "limit": {
-            "context": 262144
+            "context": 65536
           }
         }
       }

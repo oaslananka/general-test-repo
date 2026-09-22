@@ -133,6 +133,8 @@ fi
 # Keyless / hard-free paths. These are exercised even when no repository secret exists.
 run_model "Kilo Auto Free anonymous" "kilo-anon/auto-free"
 run_model "LLM7 anonymous Codestral" "llm7-anon/codestral-latest"
+run_model "OVHcloud anonymous Qwen3 Coder" "ovh-anon/qwen3-coder"
+run_model "VLM Run anonymous Qwen3.8 27B" "vlmrun-anon/qwen3.8-27b"
 
 if [[ -n "${COHERE_API_KEY:-}" ]]; then
   run_model "Cohere North Mini Code trial" "cohere-free/north-mini-code"

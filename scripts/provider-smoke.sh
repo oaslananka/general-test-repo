@@ -183,6 +183,12 @@ else
   skip "Vercel Laguna S 2.1 Free" "AI_GATEWAY_API_KEY missing"
 fi
 
+if [[ -n "${ZAI_API_KEY:-}" ]]; then
+  run_model "Z.AI GLM-4.7-Flash Free" "zai-free/glm-4.7-flash"
+else
+  skip "Z.AI GLM-4.7-Flash Free" "ZAI_API_KEY missing"
+fi
+
 if [[ -n "${INCEPTION_API_KEY:-}" ]]; then
   run_model "Inception Mercury free allocation" "inception-free/mercury-2"
 else

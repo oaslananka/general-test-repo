@@ -143,6 +143,18 @@ run_model "Kilo Auto Free anonymous" "kilo-anon/auto-free"
 run_model "LLM7 anonymous default" "llm7-anon/default"
 run_model "OVHcloud anonymous Qwen3 Coder" "ovh-anon/qwen3-coder"
 
+if [[ -n "${HETZNER_VLLM_API_KEY:-}" ]]; then
+  run_model "Hetzner Experiments Qwen3.6" "hetzner-free/qwen3.6"
+else
+  skip "Hetzner Experiments Qwen3.6" "HETZNER_VLLM_API_KEY missing"
+fi
+
+if [[ -n "${AION_API_KEY:-}" ]]; then
+  run_model "Aion Labs Free Tier" "aion-free/aion-3-mini"
+else
+  skip "Aion Labs Free Tier" "AION_API_KEY missing"
+fi
+
 if [[ -n "${COHERE_API_KEY:-}" ]]; then
   run_model "Cohere North Mini Code trial" "cohere-free/north-mini-code"
 else

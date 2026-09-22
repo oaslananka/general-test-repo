@@ -101,6 +101,27 @@
         "baseURL": "https://api.llm7.io/v1"
       },
       "models": {
+        "gpt-oss-20b": {
+          "modelID": "gpt-oss:20b",
+          "name": "GPT-OSS 20B via LLM7 Anonymous",
+          "limit": {
+            "context": 128000
+          }
+        },
+        "minimax-m2.7": {
+          "modelID": "minimax-m2.7",
+          "name": "MiniMax M2.7 via LLM7 Anonymous",
+          "limit": {
+            "context": 180000
+          }
+        },
+        "default": {
+          "modelID": "default",
+          "name": "LLM7 Default Anonymous",
+          "limit": {
+            "context": 128000
+          }
+        },
         "codestral-latest": {
           "modelID": "codestral-latest",
           "name": "Codestral via LLM7 Anonymous",

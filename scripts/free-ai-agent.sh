@@ -93,6 +93,15 @@ for raw in ${ORDER//,/ }; do
     pollinations)
       run_opencode "pollinations-legacy-keyless" "pollinations-anon/openai-fast" && exit 0
       ;;
+    freeinference)
+      run_opencode "freeinference-glm-5.3-flash" "freeinference-free/glm-5.3-flash" && exit 0
+      ;;
+    cohere)
+      run_opencode "cohere-north-mini-code-free" "cohere-free/north-mini-code" && exit 0
+      ;;
+    requesty)
+      run_opencode "requesty-nemotron-free" "requesty-free/nemotron-3-super" && exit 0
+      ;;
     ollama)
       if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
         run_opencode "ollama-local" "ollama/$OLLAMA_MODEL" && exit 0

@@ -190,6 +190,39 @@
           "name": "Kilo Auto Free Anonymous"
         }
       }
+    },
+    "ovh-anon": {
+      "name": "OVHcloud Anonymous Free",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1"
+      },
+      "models": {
+        "qwen3-coder": {
+          "modelID": "Qwen3-Coder-30B-A3B-Instruct",
+          "name": "OVH Qwen3 Coder 30B Anonymous",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        }
+      }
+    },
+    "vlmrun-anon": {
+      "name": "VLM Run Anonymous Alpha",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://gateway.vlm.run/v1/openai"
+      },
+      "models": {
+        "qwen3.8-27b": {
+          "modelID": "qwen/qwen3.8-27b",
+          "name": "VLM Run Qwen3.8 27B Anonymous",
+          "limit": {
+            "context": 256000
+          }
+        }
+      }
     }
   },
   "permissions": [

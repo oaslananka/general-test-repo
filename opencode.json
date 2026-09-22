@@ -244,22 +244,6 @@
         }
       }
     },
-    "uncloseai-anon": {
-      "name": "uncloseai Hermes Public",
-      "package": "@opencode/ai/providers/openai-compatible",
-      "settings": {
-        "baseURL": "https://hermes.ai.unturf.com/v1"
-      },
-      "models": {
-        "qwen3.6-27b": {
-          "modelID": "Lorbus/Qwen3.6-27B-int4-AutoRound",
-          "name": "uncloseai public Qwen3.6 27B",
-          "limit": {
-            "context": 65536
-          }
-        }
-      }
-    },
     "pollinations-anon": {
       "name": "Pollinations Legacy Keyless",
       "package": "@opencode/ai/providers/openai-compatible",
@@ -270,6 +254,46 @@
         "openai-fast": {
           "modelID": "openai-fast",
           "name": "Pollinations openai-fast keyless"
+        }
+      }
+    },
+    "freeinference-free": {
+      "name": "FreeInference Free",
+      "env": [
+        "FREEINFERENCE_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://freeinference.org/v1"
+      },
+      "models": {
+        "glm-5.3-flash": {
+          "modelID": "glm-5.3-flash",
+          "name": "FreeInference GLM 5.3 Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 131072
+          }
+        }
+      }
+    },
+    "requesty-free": {
+      "name": "Requesty Free NVIDIA Endpoint",
+      "env": [
+        "REQUESTY_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://router.requesty.ai/v1"
+      },
+      "models": {
+        "nemotron-3-super": {
+          "modelID": "nvidia/nemotron-3-super-120b-a12b",
+          "name": "Requesty NVIDIA Nemotron 3 Super Free",
+          "limit": {
+            "context": 1048576,
+            "output": 66000
+          }
         }
       }
     }

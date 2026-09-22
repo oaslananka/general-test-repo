@@ -85,7 +85,7 @@ if [[ -n "${KILO_API_KEY:-}" ]]; then
   TESTED=$((TESTED + 1))
   set +e
   kilo_cli_out=$(KILO_PROVIDER=kilocode KILOCODE_API_KEY="$KILO_API_KEY" \
-    timeout 4m kilo run --auto --model "kilocode/kilo-auto/free" \
+    timeout 4m kilo run --auto --model "kilo-auto/free" \
     "Do not use tools. Reply exactly KILO_CLI_OK" 2>&1)
   kilo_cli_rc=$?
   set -e

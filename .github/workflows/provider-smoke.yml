@@ -13,6 +13,7 @@ on:
       - main
       - ai/free-coding-stack-20260922
       - ai/expand-zero-cost-providers-20260922
+      - ai/add-llmtech-free-20260922
     paths:
       - opencode.json
       - scripts/provider-smoke.sh
@@ -44,6 +45,7 @@ jobs:
       REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
       AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
       ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+      LLMTECH_API_KEY: ${{ secrets.LLMTECH_API_KEY }}
       CLOUDFLARE_FREE_ONLY: ${{ vars.CLOUDFLARE_FREE_ONLY }}
       MISTRAL_FREE_ONLY: ${{ vars.MISTRAL_FREE_ONLY }}
       GEMINI_FREE_ONLY: ${{ vars.GEMINI_FREE_ONLY }}

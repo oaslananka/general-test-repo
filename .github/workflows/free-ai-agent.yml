@@ -115,12 +115,12 @@ jobs:
                 task="${rest#"$provider"}"
                 task="${task#"${task%%[![:space:]]*}"}"
                 case "$provider" in
-                  kilo|nvidia|groq|openrouter|kiloanon|llm7|ovh|ollama)
+                  kilo|nvidia|groq|openrouter|kiloanon|llm7|ovh|pollinations|ollama)
                     provider_order="$provider"
                     ;;
                   *)
                     echo "Unsupported provider: $provider"
-                    echo "Allowed: kilo nvidia groq openrouter kiloanon llm7 ovh ollama"
+                    echo "Allowed: kilo nvidia groq openrouter kiloanon llm7 ovh pollinations ollama"
                     exit 2
                     ;;
                 esac

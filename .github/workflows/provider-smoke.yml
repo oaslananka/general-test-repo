@@ -12,6 +12,7 @@ on:
     branches:
       - main
       - ai/free-coding-stack-20260922
+      - ai/fix-provider-smoke-20260922
     paths:
       - opencode.json
       - scripts/provider-smoke.sh

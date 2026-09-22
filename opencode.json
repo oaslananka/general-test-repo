@@ -4,11 +4,11 @@
   "providers": {
     "gemini-free": {
       "name": "Gemini Developer API Free Tier",
-      "env": ["GEMINI_API_KEY"],
-      "package": "@opencode/ai/providers/openai-compatible",
-      "settings": {
-        "baseURL": "https://generativelanguage.googleapis.com/v1beta/openai/"
-      },
+      "canonical": "google",
+      "env": [
+        "GEMINI_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/google",
       "models": {
         "gemini-3.8-flash": {
           "modelID": "gemini-3.8-flash",
@@ -22,7 +22,9 @@
     },
     "kilo-free": {
       "name": "Kilo Auto Free",
-      "env": ["KILO_API_KEY"],
+      "env": [
+        "KILO_API_KEY"
+      ],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://api.kilo.ai/api/gateway"
@@ -36,7 +38,9 @@
     },
     "nvidia-free": {
       "name": "NVIDIA NIM Free Endpoint",
-      "env": ["NVIDIA_API_KEY"],
+      "env": [
+        "NVIDIA_API_KEY"
+      ],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://integrate.api.nvidia.com/v1"
@@ -53,7 +57,9 @@
     },
     "groq-free": {
       "name": "Groq Free Tier",
-      "env": ["GROQ_API_KEY"],
+      "env": [
+        "GROQ_API_KEY"
+      ],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://api.groq.com/openai/v1"
@@ -71,7 +77,9 @@
     },
     "openrouter-free": {
       "name": "OpenRouter Free Router",
-      "env": ["OPENROUTER_API_KEY"],
+      "env": [
+        "OPENROUTER_API_KEY"
+      ],
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
         "baseURL": "https://openrouter.ai/api/v1"
@@ -88,20 +96,80 @@
     }
   },
   "permissions": [
-    { "action": "read", "resource": "*", "effect": "allow" },
-    { "action": "glob", "resource": "*", "effect": "allow" },
-    { "action": "grep", "resource": "*", "effect": "allow" },
-    { "action": "edit", "resource": "*", "effect": "allow" },
-    { "action": "edit", "resource": ".github/workflows/*", "effect": "deny" },
-    { "action": "edit", "resource": "*.env", "effect": "deny" },
-    { "action": "external_directory", "resource": "*", "effect": "deny" },
-    { "action": "webfetch", "resource": "*", "effect": "deny" },
-    { "action": "websearch", "resource": "*", "effect": "deny" },
-    { "action": "shell", "resource": "*", "effect": "allow" },
-    { "action": "shell", "resource": "git push *", "effect": "deny" },
-    { "action": "shell", "resource": "git commit *", "effect": "deny" },
-    { "action": "shell", "resource": "gh *", "effect": "deny" },
-    { "action": "shell", "resource": "env *", "effect": "deny" },
-    { "action": "shell", "resource": "printenv *", "effect": "deny" }
+    {
+      "action": "read",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "glob",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "grep",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "edit",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "edit",
+      "resource": ".github/workflows/*",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "*.env",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "*",
+      "effect": "deny"
+    },
+    {
+      "action": "webfetch",
+      "resource": "*",
+      "effect": "deny"
+    },
+    {
+      "action": "websearch",
+      "resource": "*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "git push *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git commit *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "gh *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "env *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "printenv *",
+      "effect": "deny"
+    }
   ]
 }

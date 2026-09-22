@@ -58,7 +58,23 @@ kilo models >/tmp/kilo-models.txt 2>&1 || true
 pass "Kilo CLI install"
 
 if [[ -n "${GEMINI_API_KEY:-}" ]]; then
-  run_model "Gemini 3.8 Flash Free Tier" "gemini-free/gemini-3.8-flash"
+  TESTED=$((TESTED + 1))
+  set +e
+  gemini_out=$(curl -fsS --max-time 90 \
+    https://generativelanguage.googleapis.com/v1beta/openai/chat/completions \
+    -H "Authorization: Bearer $GEMINI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"model":"gemini-3.8-flash","messages":[{"role":"user","content":"Reply exactly GEMINI_DIRECT_OK"}],"max_tokens":32}' 2>&1)
+  gemini_rc=$?
+  set -e
+  if [[ $gemini_rc -eq 0 ]] && grep -q "GEMINI_DIRECT_OK" <<<"$gemini_out"; then
+    pass "Gemini 3.8 Flash direct API"
+  else
+    echo "$gemini_out" | tail -n 20
+    fail "Gemini 3.8 Flash direct API"
+  fi
+
+  run_model "Gemini 3.8 Flash via OpenCode native Google" "gemini-free/gemini-3.8-flash"
 else
   skip "Gemini 3.8 Flash Free Tier" "GEMINI_API_KEY missing"
 fi
@@ -68,8 +84,9 @@ if [[ -n "${KILO_API_KEY:-}" ]]; then
 
   TESTED=$((TESTED + 1))
   set +e
-  kilo_cli_out=$(KILO_PROVIDER=kilocode KILOCODE_API_KEY="$KILO_API_KEY" KILOCODE_MODEL="kilo-auto/free" \
-    timeout 4m kilo run --auto "Do not use tools. Reply exactly KILO_CLI_OK" 2>&1)
+  kilo_cli_out=$(KILO_PROVIDER=kilo KILO_API_KEY="$KILO_API_KEY" \
+    timeout 4m kilo run --auto --model "kilo/kilo-auto/free" \
+    "Do not use tools. Reply exactly KILO_CLI_OK" 2>&1)
   kilo_cli_rc=$?
   set -e
   if [[ $kilo_cli_rc -eq 0 ]] && grep -q "KILO_CLI_OK" <<<"$kilo_cli_out"; then

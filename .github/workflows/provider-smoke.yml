@@ -13,6 +13,7 @@ on:
       - main
       - ai/free-coding-stack-20260922
       - ai/expand-zero-cost-providers-20260922
+      - ai/add-provider-dispatch-ui-20260922
     paths:
       - opencode.json
       - scripts/provider-smoke.sh

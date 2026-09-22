@@ -68,6 +68,19 @@ if [[ -n "${KILO_API_KEY:-}" ]]; then
 
   TESTED=$((TESTED + 1))
   set +e
+  kilo_cli_out=$(KILO_PROVIDER=kilocode KILOCODE_API_KEY="$KILO_API_KEY" KILOCODE_MODEL="kilo-auto/free" \
+    timeout 4m kilo run --auto "Do not use tools. Reply exactly KILO_CLI_OK" 2>&1)
+  kilo_cli_rc=$?
+  set -e
+  if [[ $kilo_cli_rc -eq 0 ]] && grep -q "KILO_CLI_OK" <<<"$kilo_cli_out"; then
+    pass "Kilo CLI Auto Free"
+  else
+    echo "$kilo_cli_out" | tail -n 30
+    fail "Kilo CLI Auto Free"
+  fi
+
+  TESTED=$((TESTED + 1))
+  set +e
   kilo_out=$(curl -fsS --max-time 90     https://api.kilo.ai/api/gateway/chat/completions     -H "Authorization: Bearer $KILO_API_KEY"     -H "Content-Type: application/json"     -d '{"model":"kilo-auto/free","messages":[{"role":"user","content":"Reply exactly KILO_GATEWAY_OK"}],"max_tokens":32}' 2>&1)
   kilo_rc=$?
   set -e

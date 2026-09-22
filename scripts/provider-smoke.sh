@@ -129,6 +129,37 @@ else
   skip "OpenRouter Free Router" "OPENROUTER_API_KEY missing"
 fi
 
+
+# Keyless / hard-free paths. These are exercised even when no repository secret exists.
+run_model "Kilo Auto Free anonymous" "kilo-anon/auto-free"
+run_model "LLM7 anonymous Codestral" "llm7-anon/codestral-latest"
+
+if [[ -n "${COHERE_API_KEY:-}" ]]; then
+  run_model "Cohere North Mini Code trial" "cohere-free/north-mini-code"
+else
+  skip "Cohere North Mini Code trial" "COHERE_API_KEY missing"
+fi
+
+if [[ -n "${INCEPTION_API_KEY:-}" ]]; then
+  run_model "Inception Mercury free allocation" "inception-free/mercury-2"
+else
+  skip "Inception Mercury free allocation" "INCEPTION_API_KEY missing"
+fi
+
+# These providers can have paid account modes. They are never part of the default fallback.
+# Test them only when the repository owner explicitly sets the FREE_ONLY guard variable.
+if [[ "${CLOUDFLARE_FREE_ONLY:-false}" == "true" && -n "${CLOUDFLARE_API_TOKEN:-}" && -n "${CLOUDFLARE_ACCOUNT_ID:-}" ]]; then
+  run_model "Cloudflare Workers AI Free guarded" "cloudflare-free/nemotron"
+else
+  skip "Cloudflare Workers AI Free guarded" "set CLOUDFLARE_FREE_ONLY=true plus token/account id"
+fi
+
+if [[ "${MISTRAL_FREE_ONLY:-false}" == "true" && -n "${MISTRAL_API_KEY:-}" ]]; then
+  run_model "Mistral Free Mode guarded" "mistral-free/medium"
+else
+  skip "Mistral Free Mode guarded" "set MISTRAL_FREE_ONLY=true plus MISTRAL_API_KEY"
+fi
+
 if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
   model="${AI_OLLAMA_MODEL:-qwen3-coder:30b}"
   run_model "Ollama local ($model)" "ollama/$model"

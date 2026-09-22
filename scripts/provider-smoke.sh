@@ -34,6 +34,9 @@ run_model() {
 
   if [[ $rc -eq 0 ]] && grep -q "PROVIDER_OK" <<<"$out"; then
     pass "$label"
+  elif grep -Eqi 'rate[ -]?limit|too many requests|HTTP[^0-9]*429|status[^0-9]*429|tokens per day|requests per day|quota (reached|exceeded)' <<<"$out"; then
+    echo "$out" | tail -n 12
+    skip "$label" "free-tier quota/rate limit reached; no paid fallback attempted"
   else
     echo "$out" | tail -n 30
     fail "$label"

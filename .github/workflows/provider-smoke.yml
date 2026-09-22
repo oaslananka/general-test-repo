@@ -38,6 +38,7 @@ jobs:
       MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
       CLOUDFLARE_FREE_ONLY: ${{ vars.CLOUDFLARE_FREE_ONLY }}
       MISTRAL_FREE_ONLY: ${{ vars.MISTRAL_FREE_ONLY }}
+      GEMINI_FREE_ONLY: ${{ vars.GEMINI_FREE_ONLY }}
       AI_OLLAMA_MODEL: ${{ vars.AI_OLLAMA_MODEL }}
       STRICT_PROVIDER_SMOKE: ${{ github.event_name == 'workflow_dispatch' && inputs.strict || 'false' }}
 

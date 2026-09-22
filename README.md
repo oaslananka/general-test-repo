@@ -45,7 +45,7 @@ The default chain intentionally excludes Gemini, Groq, Mistral, Cloudflare, Cohe
 Override only if you deliberately want to:
 
 ```text
-AI_PROVIDER_ORDER=kilo,kiloanon,nvidia,openrouter,ovh,llm7,ollama
+AI_PROVIDER_ORDER=kilo,kiloanon,nvidia,openrouter,pollinations,ovh,llm7,ollama
 ```
 
 ## Provider secrets already supported

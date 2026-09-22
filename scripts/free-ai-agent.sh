@@ -13,7 +13,7 @@ rm -f "$PROVIDER_FILE"
 
 MODE="${AI_MODE:-implement}"
 TASK="${AI_TASK:-Inspect the repository and make the smallest safe change.}"
-ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,pollinations,ovh,llm7,ollama}"
+ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ollama}"
 OLLAMA_MODEL="${AI_OLLAMA_MODEL:-qwen3-coder:30b}"
 
 PROMPT=$(cat <<EOF

@@ -16,7 +16,9 @@ on:
     paths:
       - opencode.json
       - scripts/provider-smoke.sh
+      - scripts/free-ai-agent.sh
       - .github/workflows/provider-smoke.yml
+      - .github/workflows/free-ai-agent.yml
 
 permissions:
   contents: read
@@ -62,6 +64,12 @@ jobs:
           npm install --global @opencode/cli @kilocode/cli
           opencode --version
           kilo --version
+
+      - name: Validate agent scripts
+        shell: bash
+        run: |
+          bash -n scripts/provider-smoke.sh
+          bash -n scripts/free-ai-agent.sh
 
       - name: Verify challenge is initially failing
         shell: bash

@@ -12,6 +12,28 @@ on:
           - implement
           - fix
           - review
+      provider:
+        description: "Force one provider, or use auto fallback"
+        required: true
+        default: auto
+        type: choice
+        options:
+          - auto
+          - kilo
+          - kiloanon
+          - nvidia
+          - openrouter
+          - pollinations
+          - groq
+          - llm7
+          - ovh
+          - freeinference
+          - cohere
+          - requesty
+          - vercel
+          - zai
+          - llmtech
+          - ollama
       task:
         description: "What should the coding agent do?"
         required: true
@@ -103,6 +125,7 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           DISPATCH_MODE: ${{ inputs.mode }}
           DISPATCH_TASK: ${{ inputs.task }}
+          DISPATCH_PROVIDER: ${{ inputs.provider }}
           COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
           set -euo pipefail
@@ -110,6 +133,18 @@ jobs:
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             mode="${DISPATCH_MODE:-implement}"
             task="${DISPATCH_TASK:-}"
+            provider="${DISPATCH_PROVIDER:-auto}"
+            if [[ "$provider" != "auto" ]]; then
+              case "$provider" in
+                kilo|nvidia|groq|openrouter|kiloanon|llm7|ovh|pollinations|freeinference|cohere|requesty|vercel|zai|llmtech|ollama)
+                  provider_order="$provider"
+                  ;;
+                *)
+                  echo "Unsupported provider: $provider"
+                  exit 2
+                  ;;
+              esac
+            fi
           else
             raw="${COMMENT_BODY:-}"
             case "$raw" in
@@ -253,7 +288,8 @@ jobs:
             echo "## Free AI Coding Agent"
             echo
             echo "- Mode: ${{ steps.task.outputs.mode }}"
-            echo "- Provider: ${{ steps.result.outputs.provider || 'none' }}"
+            echo "- Requested provider: ${{ steps.task.outputs.provider_order || 'auto' }}"
+            echo "- Provider used: ${{ steps.result.outputs.provider || 'none' }}"
             echo "- Changed: ${{ steps.result.outputs.changed || 'false' }}"
             if [[ -n "${{ steps.pr.outputs.url }}" ]]; then echo "- PR: ${{ steps.pr.outputs.url }}"; fi
           } >> "$GITHUB_STEP_SUMMARY"

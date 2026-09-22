@@ -13,7 +13,6 @@ on:
       - main
       - ai/free-coding-stack-20260922
       - ai/expand-zero-cost-providers-20260922
-      - ai/harden-free-quota-handling-20260922
     paths:
       - opencode.json
       - scripts/provider-smoke.sh

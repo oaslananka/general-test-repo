@@ -112,6 +112,9 @@ Automatic zero-cost fallback is used.
 
 ### Force one provider
 
+Actions UI can also force one provider: open **Actions → Free AI Coding Agent → Run workflow**, choose a `provider`, `mode`, and task. Choose `auto` to use the strict-zero default fallback.
+
+
 Use:
 
 ```text

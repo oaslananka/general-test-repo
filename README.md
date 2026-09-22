@@ -17,11 +17,11 @@ Real GitHub-hosted Actions inference tests:
 | OpenRouter `openrouter/free` | PASS | explicit free router |
 | LLM7 anonymous `default` | PASS + coding PASS, intermittent transport timeouts observed | keyless/free |
 | OVHcloud anonymous Qwen3-Coder | PASS + coding PASS, intermittent transport timeouts observed | keyless/free |
-| Pollinations legacy `openai-fast` | PASS smoke twice | keyless legacy endpoint; coding test pending |
+| Pollinations legacy `openai-fast` | PASS + coding PASS | keyless legacy endpoint |
 | Gemini 3.8 Flash | disabled by default | current project returned HTTP 402; only test with explicit free-only guard |
 | Ollama | host-dependent | local inference; no third-party inference charge |
 
-Real issue → agent → edit → test → PR runs have succeeded independently through Kilo authenticated, Kilo anonymous, NVIDIA NIM, Groq, OpenRouter Free, LLM7 anonymous and OVHcloud anonymous. Each test fixed only the intentional challenge implementation and passed 3/3 tests.
+Real issue → agent → edit → test → PR runs have succeeded independently through Kilo authenticated, Kilo anonymous, NVIDIA NIM, Groq, OpenRouter Free, Pollinations keyless, LLM7 anonymous and OVHcloud anonymous. Each test fixed only the intentional challenge implementation and passed 3/3 tests.
 
 ## Zero-cost automatic fallback
 
@@ -32,10 +32,11 @@ kilo
 → kiloanon
 → nvidia
 → openrouter
+→ pollinations
 → ollama
 ```
 
-A single provider run is capped at 10 minutes. LLM7 and OVH are available only as forced/manual fallbacks because later smoke runs showed intermittent transport timeouts despite successful coding tests. Pollinations is also forced-only until its end-to-end coding challenge passes.
+A single provider run is capped at 10 minutes. LLM7 and OVH are available only as forced/manual fallbacks because later smoke runs showed intermittent transport timeouts despite successful coding tests. Pollinations passed its end-to-end coding challenge and is now part of the strict-zero default chain.
 
 The default chain intentionally excludes Gemini, Groq, Mistral, Cloudflare, Cohere, Inception, Hetzner and Aion. Those may have free plans/allocations, but their account state or terms are not equivalent to an explicit free model selector or keyless endpoint.
 

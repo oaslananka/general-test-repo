@@ -316,6 +316,22 @@
           }
         }
       }
+    },
+    "zai-free": {
+      "name": "Z.AI GLM-4.7-Flash Free",
+      "env": [
+        "ZAI_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.z.ai/api/paas/v4"
+      },
+      "models": {
+        "glm-4.7-flash": {
+          "modelID": "glm-4.7-flash",
+          "name": "GLM-4.7-Flash Free"
+        }
+      }
     }
   },
   "permissions": [

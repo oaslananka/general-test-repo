@@ -43,6 +43,7 @@ jobs:
       FREEINFERENCE_API_KEY: ${{ secrets.FREEINFERENCE_API_KEY }}
       REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
       AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
+      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
       CLOUDFLARE_FREE_ONLY: ${{ vars.CLOUDFLARE_FREE_ONLY }}
       MISTRAL_FREE_ONLY: ${{ vars.MISTRAL_FREE_ONLY }}
       GEMINI_FREE_ONLY: ${{ vars.GEMINI_FREE_ONLY }}

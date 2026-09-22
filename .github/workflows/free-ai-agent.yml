@@ -1,0 +1,226 @@
+name: Free AI Coding Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Task mode"
+        required: true
+        default: implement
+        type: choice
+        options:
+          - implement
+          - fix
+          - review
+      task:
+        description: "What should the coding agent do?"
+        required: true
+        type: string
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: free-ai-agent-${{ github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  agent:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'issue_comment' &&
+        github.event.issue.pull_request == null &&
+        (
+          github.event.comment.author_association == 'OWNER' ||
+          github.event.comment.author_association == 'MEMBER' ||
+          github.event.comment.author_association == 'COLLABORATOR'
+        ) &&
+        (
+          github.event.comment.body == '/ai' ||
+          startsWith(github.event.comment.body, '/ai ') ||
+          github.event.comment.body == '/fix' ||
+          startsWith(github.event.comment.body, '/fix ') ||
+          github.event.comment.body == '/implement' ||
+          startsWith(github.event.comment.body, '/implement ') ||
+          github.event.comment.body == '/review' ||
+          startsWith(github.event.comment.body, '/review ')
+        )
+      )
+
+    runs-on: ${{ vars.AI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 45
+
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      KILO_API_KEY: ${{ secrets.KILO_API_KEY }}
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      AI_PROVIDER_ORDER: ${{ vars.AI_PROVIDER_ORDER }}
+      AI_OLLAMA_MODEL: ${{ vars.AI_OLLAMA_MODEL }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install current coding CLIs
+        run: |
+          set -euo pipefail
+          npm install --global @opencode/cli @kilocode/cli
+          opencode --version
+          kilo --version
+
+      - name: Build task
+        id: task
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_MODE: ${{ inputs.mode }}
+          DISPATCH_TASK: ${{ inputs.task }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            mode="${DISPATCH_MODE:-implement}"
+            task="${DISPATCH_TASK:-}"
+          else
+            raw="${COMMENT_BODY:-}"
+            case "$raw" in
+              /review*) mode="review"; task="${raw#/review}" ;;
+              /fix*) mode="fix"; task="${raw#/fix}" ;;
+              /implement*) mode="implement"; task="${raw#/implement}" ;;
+              /ai*) mode="implement"; task="${raw#/ai}" ;;
+              *) echo "Unsupported command"; exit 2 ;;
+            esac
+            task="${task#"${task%%[![:space:]]*}"}"
+          fi
+          if [[ -z "$task" ]]; then
+            task="Fix the intentional bug in challenge so npm --prefix challenge test passes. Do not change the tests."
+          fi
+          {
+            echo "mode=$mode"
+            echo "task<<__TASK__"
+            printf '%s\n' "$task"
+            echo "__TASK__"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run coding-agent fallback chain
+        id: agent
+        shell: bash
+        env:
+          AI_MODE: ${{ steps.task.outputs.mode }}
+          AI_TASK: ${{ steps.task.outputs.task }}
+        run: bash scripts/free-ai-agent.sh
+
+      - name: Verify task result
+        if: steps.task.outputs.mode != 'review'
+        shell: bash
+        run: npm --prefix challenge test
+
+      - name: Normalize result
+        id: result
+        if: always() && steps.agent.outcome == 'success'
+        shell: bash
+        env:
+          MODE: ${{ steps.task.outputs.mode }}
+        run: |
+          set -euo pipefail
+          provider="$(cat "$RUNNER_TEMP/free-ai-provider.txt" 2>/dev/null || printf unknown)"
+          echo "provider=$provider" >> "$GITHUB_OUTPUT"
+          if [[ "$MODE" == "review" ]]; then
+            git reset --hard HEAD
+            git clean -fd
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet && [[ -z "$(git ls-files --others --exclude-standard)" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create pull request
+        id: pr
+        if: steps.result.outputs.changed == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AI_TASK: ${{ steps.task.outputs.task }}
+          AI_PROVIDER: ${{ steps.result.outputs.provider }}
+        run: |
+          set -euo pipefail
+          base_branch="$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name')"
+          branch="ai/run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git config user.name "free-ai-agent[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          gh auth setup-git
+          git switch -c "$branch"
+          git add -A
+          git commit -m "fix: apply AI coding task"
+          git push --set-upstream origin "$branch"
+          body="$RUNNER_TEMP/pr-body.md"
+          {
+            echo "Automated task completed through **$AI_PROVIDER**."
+            echo
+            echo "Task:"
+            echo "> $AI_TASK"
+            echo
+            echo "The challenge test passed in the workflow. Review the diff before merging."
+            echo
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          } > "$body"
+          title="$(printf '%s' "$AI_TASK" | tr '\n' ' ' | cut -c1-72)"
+          url="$(gh pr create --base "$base_branch" --head "$branch" --title "AI: $title" --body-file "$body")"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on triggering issue
+        if: github.event_name == 'issue_comment' && always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+          PROVIDER: ${{ steps.result.outputs.provider }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+          MODE: ${{ steps.task.outputs.mode }}
+        run: |
+          set -euo pipefail
+          if [[ "$MODE" == "review" ]]; then
+            {
+              echo "Review completed via **${PROVIDER:-unknown}**."
+              echo
+              echo '```text'
+              tail -c 12000 "$RUNNER_TEMP/free-ai-agent.log" 2>/dev/null || true
+              echo
+              echo '```'
+            } > "$RUNNER_TEMP/comment.md"
+          elif [[ -n "${PR_URL:-}" ]]; then
+            printf 'Task completed via **%s**. Pull request: %s\n' "${PROVIDER:-unknown}" "$PR_URL" > "$RUNNER_TEMP/comment.md"
+          else
+            echo "Agent run did not create a pull request." > "$RUNNER_TEMP/comment.md"
+          fi
+          gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/comment.md"
+
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Free AI Coding Agent"
+            echo
+            echo "- Mode: ${{ steps.task.outputs.mode }}"
+            echo "- Provider: ${{ steps.result.outputs.provider || 'none' }}"
+            echo "- Changed: ${{ steps.result.outputs.changed || 'false' }}"
+            if [[ -n "${{ steps.pr.outputs.url }}" ]]; then echo "- PR: ${{ steps.pr.outputs.url }}"; fi
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -93,6 +93,156 @@
           }
         }
       }
+    },
+    "llm7-anon": {
+      "name": "LLM7 Anonymous Free",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.llm7.io/v1"
+      },
+      "models": {
+        "default": {
+          "modelID": "default",
+          "name": "LLM7 Default Anonymous",
+          "limit": {
+            "context": 128000
+          }
+        }
+      }
+    },
+    "cohere-free": {
+      "name": "Cohere Trial - North Mini Code",
+      "env": [
+        "COHERE_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.cohere.ai/compatibility/v1"
+      },
+      "models": {
+        "north-mini-code": {
+          "modelID": "north-mini-code-1-0",
+          "name": "North Mini Code 1.0",
+          "limit": {
+            "context": 256000,
+            "output": 64000
+          }
+        }
+      }
+    },
+    "inception-free": {
+      "name": "Inception Free - Mercury 2",
+      "env": [
+        "INCEPTION_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.inceptionlabs.ai/v1"
+      },
+      "models": {
+        "mercury-2": {
+          "modelID": "mercury-2",
+          "name": "Mercury 2"
+        }
+      }
+    },
+    "mistral-free": {
+      "name": "Mistral Free Mode",
+      "env": [
+        "MISTRAL_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.mistral.ai/v1"
+      },
+      "models": {
+        "medium": {
+          "modelID": "mistral-medium-latest",
+          "name": "Mistral Medium Latest"
+        }
+      }
+    },
+    "cloudflare-free": {
+      "name": "Cloudflare Workers AI Free",
+      "env": [
+        "CLOUDFLARE_API_TOKEN"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.cloudflare.com/client/v4/accounts/{env:CLOUDFLARE_ACCOUNT_ID}/ai/v1"
+      },
+      "models": {
+        "nemotron": {
+          "modelID": "@cf/nvidia/nemotron-3-120b-a12b",
+          "name": "Cloudflare Nemotron 3 120B A12B"
+        }
+      }
+    },
+    "kilo-anon": {
+      "name": "Kilo Anonymous Auto Free",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.kilo.ai/api/gateway"
+      },
+      "models": {
+        "auto-free": {
+          "modelID": "kilo-auto/free",
+          "name": "Kilo Auto Free Anonymous"
+        }
+      }
+    },
+    "ovh-anon": {
+      "name": "OVHcloud Anonymous Free",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1"
+      },
+      "models": {
+        "qwen3-coder": {
+          "modelID": "Qwen3-Coder-30B-A3B-Instruct",
+          "name": "OVH Qwen3 Coder 30B Anonymous",
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          }
+        }
+      }
+    },
+    "hetzner-free": {
+      "name": "Hetzner Experiments Inference Free",
+      "env": [
+        "HETZNER_VLLM_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://inference.hetzner.com/api/v1"
+      },
+      "models": {
+        "qwen3.6": {
+          "modelID": "Qwen/Qwen3.6-35B-A3B-FP8",
+          "name": "Hetzner Qwen3.6 35B A3B"
+        }
+      }
+    },
+    "aion-free": {
+      "name": "Aion Labs Free Tier",
+      "env": [
+        "AION_API_KEY"
+      ],
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.aionlabs.ai/v1"
+      },
+      "models": {
+        "aion-3-mini": {
+          "modelID": "aion-labs/aion-3.0-mini",
+          "name": "Aion 3.0 Mini",
+          "limit": {
+            "context": 131072,
+            "output": 32768
+          }
+        }
+      }
     }
   },
   "permissions": [

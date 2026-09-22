@@ -13,7 +13,7 @@ rm -f "$PROVIDER_FILE"
 
 MODE="${AI_MODE:-implement}"
 TASK="${AI_TASK:-Inspect the repository and make the smallest safe change.}"
-ORDER="${AI_PROVIDER_ORDER:-gemini,kilo,nvidia,groq,openrouter,ollama}"
+ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ovh,llm7,ollama}"
 OLLAMA_MODEL="${AI_OLLAMA_MODEL:-qwen3-coder:30b}"
 
 PROMPT=$(cat <<EOF
@@ -80,6 +80,15 @@ for raw in ${ORDER//,/ }; do
       ;;
     openrouter)
       [[ -n "${OPENROUTER_API_KEY:-}" ]] && run_opencode "openrouter-free-router" "openrouter-free/free" && exit 0
+      ;;
+    kiloanon)
+      run_opencode "kilo-auto-free-anonymous" "kilo-anon/auto-free" && exit 0
+      ;;
+    llm7)
+      run_opencode "llm7-anonymous-codestral" "llm7-anon/default" && exit 0
+      ;;
+    ovh)
+      run_opencode "ovh-anonymous-qwen3-coder" "ovh-anon/qwen3-coder" && exit 0
       ;;
     ollama)
       if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then

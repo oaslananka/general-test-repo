@@ -177,6 +177,19 @@
           "name": "Cloudflare Nemotron 3 120B A12B"
         }
       }
+    },
+    "kilo-anon": {
+      "name": "Kilo Anonymous Auto Free",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.kilo.ai/api/gateway"
+      },
+      "models": {
+        "auto-free": {
+          "modelID": "kilo-auto/free",
+          "name": "Kilo Auto Free Anonymous"
+        }
+      }
     }
   },
   "permissions": [

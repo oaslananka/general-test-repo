@@ -189,6 +189,12 @@ else
   skip "Z.AI GLM-4.7-Flash Free" "ZAI_API_KEY missing"
 fi
 
+if [[ -n "${LLMTECH_API_KEY:-}" ]]; then
+  run_model "LLM Tech Qwen3.8 27B shared free trial" "llmtech-free/qwen3.8-27b"
+else
+  skip "LLM Tech Qwen3.8 27B shared free trial" "LLMTECH_API_KEY missing"
+fi
+
 if [[ -n "${INCEPTION_API_KEY:-}" ]]; then
   run_model "Inception Mercury free allocation" "inception-free/mercury-2"
 else

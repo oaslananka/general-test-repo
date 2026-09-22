@@ -97,14 +97,22 @@ if [[ -n "${KILO_API_KEY:-}" ]]; then
   fi
 
   TESTED=$((TESTED + 1))
+  kilo_body="${RUNNER_TEMP:-/tmp}/kilo-gateway-body.json"
   set +e
-  kilo_out=$(curl -fsS --max-time 90     https://api.kilo.ai/api/gateway/chat/completions     -H "Authorization: Bearer $KILO_API_KEY"     -H "Content-Type: application/json"     -d '{"model":"kilo-auto/free","messages":[{"role":"user","content":"Reply exactly KILO_GATEWAY_OK"}],"max_tokens":32}' 2>&1)
+  kilo_http=$(curl -sS --max-time 90 -o "$kilo_body" -w '%{http_code}' \
+    https://api.kilo.ai/api/gateway/chat/completions \
+    -H "Authorization: Bearer $KILO_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"model":"kilo-auto/free","messages":[{"role":"user","content":"Reply exactly KILO_GATEWAY_OK"}],"max_tokens":32}')
   kilo_rc=$?
   set -e
-  if [[ $kilo_rc -eq 0 ]] && grep -q "KILO_GATEWAY_OK" <<<"$kilo_out"; then
+  if [[ $kilo_rc -eq 0 && "$kilo_http" == "200" ]] && grep -q "KILO_GATEWAY_OK" "$kilo_body"; then
     pass "Kilo Gateway Auto Free"
+  elif [[ "$kilo_http" == "429" ]]; then
+    skip "Kilo Gateway Auto Free" "rate limited (HTTP 429); other Kilo paths are tested separately"
   else
-    echo "$kilo_out" | tail -n 20
+    cat "$kilo_body" 2>/dev/null | tail -n 20 || true
+    echo "HTTP $kilo_http"
     fail "Kilo Gateway Auto Free"
   fi
 else

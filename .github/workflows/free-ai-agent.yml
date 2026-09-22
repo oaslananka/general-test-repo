@@ -48,7 +48,9 @@ jobs:
           github.event.comment.body == '/implement' ||
           startsWith(github.event.comment.body, '/implement ') ||
           github.event.comment.body == '/review' ||
-          startsWith(github.event.comment.body, '/review ')
+          startsWith(github.event.comment.body, '/review ') ||
+          github.event.comment.body == '/provider' ||
+          startsWith(github.event.comment.body, '/provider ')
         )
       )
 
@@ -99,12 +101,31 @@ jobs:
           COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
           set -euo pipefail
+          provider_order=""
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             mode="${DISPATCH_MODE:-implement}"
             task="${DISPATCH_TASK:-}"
           else
             raw="${COMMENT_BODY:-}"
             case "$raw" in
+              /provider*)
+                rest="${raw#/provider}"
+                rest="${rest#"${rest%%[![:space:]]*}"}"
+                provider="${rest%%[[:space:]]*}"
+                task="${rest#"$provider"}"
+                task="${task#"${task%%[![:space:]]*}"}"
+                case "$provider" in
+                  kilo|nvidia|groq|openrouter|kiloanon|llm7|ovh|ollama)
+                    provider_order="$provider"
+                    ;;
+                  *)
+                    echo "Unsupported provider: $provider"
+                    echo "Allowed: kilo nvidia groq openrouter kiloanon llm7 ovh ollama"
+                    exit 2
+                    ;;
+                esac
+                mode="fix"
+                ;;
               /review*) mode="review"; task="${raw#/review}" ;;
               /fix*) mode="fix"; task="${raw#/fix}" ;;
               /implement*) mode="implement"; task="${raw#/implement}" ;;
@@ -118,6 +139,7 @@ jobs:
           fi
           {
             echo "mode=$mode"
+            echo "provider_order=$provider_order"
             echo "task<<__TASK__"
             printf '%s\n' "$task"
             echo "__TASK__"
@@ -129,6 +151,7 @@ jobs:
         env:
           AI_MODE: ${{ steps.task.outputs.mode }}
           AI_TASK: ${{ steps.task.outputs.task }}
+          AI_PROVIDER_ORDER: ${{ steps.task.outputs.provider_order || vars.AI_PROVIDER_ORDER }}
         run: bash scripts/free-ai-agent.sh
 
       - name: Verify task result

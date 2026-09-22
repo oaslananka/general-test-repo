@@ -13,7 +13,7 @@ rm -f "$PROVIDER_FILE"
 
 MODE="${AI_MODE:-implement}"
 TASK="${AI_TASK:-Inspect the repository and make the smallest safe change.}"
-ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,ovh,llm7,pollinations,ollama}"
+ORDER="${AI_PROVIDER_ORDER:-kilo,kiloanon,nvidia,openrouter,pollinations,ovh,llm7,ollama}"
 OLLAMA_MODEL="${AI_OLLAMA_MODEL:-qwen3-coder:30b}"
 
 PROMPT=$(cat <<EOF
@@ -49,7 +49,7 @@ run_opencode() {
   restore_repo
 
   set +e
-  timeout 25m opencode run     --standalone     --agent build     --model "$model"     "$PROMPT" 2>&1 | tee -a "$LOG"
+  timeout 10m opencode run     --standalone     --agent build     --model "$model"     "$PROMPT" 2>&1 | tee -a "$LOG"
   rc=${PIPESTATUS[0]}
   set -e
 

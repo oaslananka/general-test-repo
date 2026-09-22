@@ -101,32 +101,11 @@
         "baseURL": "https://api.llm7.io/v1"
       },
       "models": {
-        "gpt-oss-20b": {
-          "modelID": "gpt-oss:20b",
-          "name": "GPT-OSS 20B via LLM7 Anonymous",
-          "limit": {
-            "context": 128000
-          }
-        },
-        "minimax-m2.7": {
-          "modelID": "minimax-m2.7",
-          "name": "MiniMax M2.7 via LLM7 Anonymous",
-          "limit": {
-            "context": 180000
-          }
-        },
         "default": {
           "modelID": "default",
           "name": "LLM7 Default Anonymous",
           "limit": {
             "context": 128000
-          }
-        },
-        "codestral-latest": {
-          "modelID": "codestral-latest",
-          "name": "Codestral via LLM7 Anonymous",
-          "limit": {
-            "context": 32000
           }
         }
       }
@@ -225,22 +204,6 @@
           "limit": {
             "context": 262144,
             "output": 32768
-          }
-        }
-      }
-    },
-    "vlmrun-anon": {
-      "name": "VLM Run Anonymous Alpha",
-      "package": "@opencode/ai/providers/openai-compatible",
-      "settings": {
-        "baseURL": "https://gateway.vlm.run/v1/openai"
-      },
-      "models": {
-        "qwen3.8-27b": {
-          "modelID": "qwen/qwen3.8-27b",
-          "name": "VLM Run Qwen3.8 27B Anonymous",
-          "limit": {
-            "context": 256000
           }
         }
       }

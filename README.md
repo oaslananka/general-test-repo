@@ -32,13 +32,10 @@ kilo
 → kiloanon
 → nvidia
 → openrouter
-→ pollinations
-→ ovh
-→ llm7
 → ollama
 ```
 
-A single provider run is capped at 10 minutes before failover continues. LLM7 and OVH remain at the end because later smoke runs showed intermittent transport timeouts despite successful coding tests.
+A single provider run is capped at 10 minutes. LLM7 and OVH are available only as forced/manual fallbacks because later smoke runs showed intermittent transport timeouts despite successful coding tests. Pollinations is also forced-only until its end-to-end coding challenge passes.
 
 The default chain intentionally excludes Gemini, Groq, Mistral, Cloudflare, Cohere, Inception, Hetzner and Aion. Those may have free plans/allocations, but their account state or terms are not equivalent to an explicit free model selector or keyless endpoint.
 

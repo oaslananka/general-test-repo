@@ -15,9 +15,9 @@ Real GitHub-hosted Actions inference tests:
 | NVIDIA NIM Nemotron 3 Super | PASS | hosted free prototype endpoint |
 | Groq GPT-OSS-120B | PASS + coding PASS | Free Tier; forced only, because a Groq key may belong to a paid Developer account |
 | OpenRouter `openrouter/free` | PASS | explicit free router |
-| LLM7 anonymous `default` | PASS | keyless/free |
-| OVHcloud anonymous Qwen3-Coder | PASS + coding PASS | keyless/free |
-| Pollinations legacy `openai-fast` | PASS smoke | keyless legacy endpoint; coding test pending |
+| LLM7 anonymous `default` | PASS + coding PASS, intermittent transport timeouts observed | keyless/free |
+| OVHcloud anonymous Qwen3-Coder | PASS + coding PASS, intermittent transport timeouts observed | keyless/free |
+| Pollinations legacy `openai-fast` | PASS smoke twice | keyless legacy endpoint; coding test pending |
 | Gemini 3.8 Flash | disabled by default | current project returned HTTP 402; only test with explicit free-only guard |
 | Ollama | host-dependent | local inference; no third-party inference charge |
 
@@ -32,11 +32,13 @@ kilo
 → kiloanon
 → nvidia
 → openrouter
+→ pollinations
 → ovh
 → llm7
-→ pollinations
 → ollama
 ```
+
+A single provider run is capped at 10 minutes before failover continues. LLM7 and OVH remain at the end because later smoke runs showed intermittent transport timeouts despite successful coding tests.
 
 The default chain intentionally excludes Gemini, Groq, Mistral, Cloudflare, Cohere, Inception, Hetzner and Aion. Those may have free plans/allocations, but their account state or terms are not equivalent to an explicit free model selector or keyless endpoint.
 

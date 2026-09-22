@@ -105,6 +105,9 @@ for raw in ${ORDER//,/ }; do
     vercel)
       run_opencode "vercel-laguna-s-2.1-free" "vercel-free/laguna-s-2.1-free" && exit 0
       ;;
+    zai)
+      run_opencode "zai-glm-4.7-flash-free" "zai-free/glm-4.7-flash" && exit 0
+      ;;
     ollama)
       if curl -fsS --max-time 2 http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
         run_opencode "ollama-local" "ollama/$OLLAMA_MODEL" && exit 0

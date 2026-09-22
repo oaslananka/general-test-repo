@@ -68,6 +68,7 @@ Optional free/no-card evaluation paths:
 - `REQUESTY_API_KEY` — Requesty Free plan; pinned to the $0 NVIDIA endpoint
 - `AI_GATEWAY_API_KEY` — Vercel AI Gateway; pinned only to `poolside/laguna-s-2.1-free`
 - `ZAI_API_KEY` — Z.AI; pinned only to the officially free `glm-4.7-flash`
+- `LLMTECH_API_KEY` — LLM Tech shared/free-trial credential; pinned to `nvidia/Qwen3.8-27B-NVFP4`
 
 Guard variables:
 
@@ -133,6 +134,7 @@ cohere
 requesty
 vercel
 zai
+llmtech
 ollama
 ```
 
@@ -153,6 +155,7 @@ Current pending-key routes:
 - Requesty Free — no card; 200 requests/day on its free models; config is pinned to a zero-priced NVIDIA endpoint.
 - Vercel AI Gateway — forced-only; pinned to `poolside/laguna-s-2.1-free`, whose official model page lists both input and output as Free.
 - Z.AI — forced-only; pinned to `glm-4.7-flash`, whose official pricing lists input, cached input, storage and output as Free.
+- LLM Tech — provisional forced-only route; current shared trial is 2M tokens/day per address, 2 concurrent requests, no account; the public shared key is intentionally not committed.
 - Hetzner experimental inference — free while the experiment runs.
 - Aion Free Tier.
 - Inception Mercury free allocation.
@@ -222,4 +225,5 @@ pass 3/3 tests without editing the tests.
 - Vercel OpenAI-compatible endpoint: https://vercel.com/docs/ai-gateway
 - Z.AI pricing: https://docs.z.ai/guides/overview/pricing
 - Z.AI HTTP API: https://docs.z.ai/guides/develop/http/introduction
+- LLM Tech provider verification: https://github.com/mvalentsev/awesome-free-ai-coding/blob/main/providers/llmtech.md
 - Freebuff terms: https://freebuff.com/terms-of-service
